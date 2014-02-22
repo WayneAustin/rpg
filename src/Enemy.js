@@ -8,17 +8,18 @@ Enemy = function (game) {
 
 Enemy.prototype = {
     preload: function () {
-        this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+        this.game.load.spritesheet('knight', 'assets/knight.png', 64, 64);
     },
     create: function () {
-        this.sprite = this.game.add.sprite(300, 300, 'dude');
+        this.sprite = this.game.add.sprite(300, 300, 'knight');
 
         this.sprite.body.immovable = true;
         this.sprite.body.collideWorldBounds = true;
 
-        this.sprite.animations.add('left', [0, 1, 2, 3], 10, true);
-        this.sprite.animations.add('right', [5, 6, 7, 8], 10, true);
-        this.sprite.animations.add('spin', [2, 3, 4, 5, 6], 10, true);
+        this.sprite.animations.add('up', [0, 1, 2, 3, 4, 5, 6, 7, 8], 10, true);
+        this.sprite.animations.add('down', [18, 19, 20, 21, 22, 23, 24, 25, 26], 10, true);
+        this.sprite.animations.add('left', [9, 10, 11, 12, 13, 14, 15, 16, 17], 10, true);
+        this.sprite.animations.add('right', [27, 28, 29, 30, 31, 32, 33, 34, 35], 10, true);
     },
     update: function (target) {
         this.sprite.body.velocity.setTo(0, 0);    
@@ -52,14 +53,14 @@ Enemy.prototype = {
                 break;
                 case 3:
                     this.sprite.body.velocity.y = -75;
-                    this.sprite.animations.play('left');
+                    this.sprite.animations.play('up');
                 break;
                 case 4:
                     this.sprite.body.velocity.y = 75;
-                    this.sprite.animations.play('right');
+                    this.sprite.animations.play('down');
                 break;
                 case 5: 
-                    this.sprite.animations.play('spin');
+                    this.sprite.animations.stop();
                     break;
             }            
 

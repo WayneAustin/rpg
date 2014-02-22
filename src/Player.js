@@ -7,16 +7,18 @@ Player = function (game) {
 
 Player.prototype = {
     preload: function () {
-        this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+        this.game.load.spritesheet('rapscallion', 'assets/rapscallion.png', 64, 64);
     },
     create: function () {
-        this.sprite = this.game.add.sprite(50, 50, 'dude');
+        this.sprite = this.game.add.sprite(100, 60, 'rapscallion');
         
         this.sprite.body.immovable = true;
         this.sprite.body.collideWorldBounds = true;
 
-        this.sprite.animations.add('left', [0, 1, 2, 3], 10, true);
-        this.sprite.animations.add('right', [5, 6, 7, 8], 10, true)
+        this.sprite.animations.add('up', [0, 1, 2, 3, 4, 5, 6, 7, 8], 10, true);
+        this.sprite.animations.add('down', [18, 19, 20, 21, 22, 23, 24, 25, 26], 10, true);
+        this.sprite.animations.add('left', [9, 10, 11, 12, 13, 14, 15, 16, 17], 10, true);
+        this.sprite.animations.add('right', [27, 28, 29, 30, 31, 32, 33, 34, 35], 10, true);
         
         this.cursors = this.game.input.keyboard.createCursorKeys();
     },
@@ -29,21 +31,18 @@ Player.prototype = {
         } else if (this.cursors.right.isDown) {
             this.sprite.body.velocity.x = 150;
             this.sprite.animations.play('right');}
-        
-        if (this.cursors.up.isDown) {
+        else if (this.cursors.up.isDown) {
             this.sprite.body.velocity.y = -150;
-            this.sprite.animations.play('left');
+            this.sprite.animations.play('up');
         } else if (this.cursors.down.isDown) {
             this.sprite.body.velocity.y = 150;
-            this.sprite.animations.play('right');
+            this.sprite.animations.play('down');
+        } else {
+            this.sprite.animations.stop();
         }
         
         this.nearEnemy(enemy);
         
-    },
-    touchNPC: function(npc) {
-         this.sprite.body.velocity.setTo(0, 0);
-         npc.sprite.body.velocity.setTo(0, 0);
     },
     nearEnemy: function(enemy) {
         var xDistance = this.sprite.x - enemy.sprite.x;
