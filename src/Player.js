@@ -20,7 +20,7 @@ Player.prototype = {
         
         this.cursors = this.game.input.keyboard.createCursorKeys();
     },
-    update: function (npc, enemy) {
+    update: function (enemy) {
         this.sprite.body.velocity.setTo(0, 0);
 
         if (this.cursors.left.isDown) {
@@ -60,5 +60,7 @@ Player.prototype = {
     touchEnemy: function(enemy) {
          this.sprite.body.velocity.setTo(0, 0);
          enemy.sprite.body.velocity.setTo(0, 0);
+        
+        this.sprite.kill();
     },
 };

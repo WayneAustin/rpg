@@ -9,8 +9,8 @@ window.onload = function() {
                     player = new Player(game);
                     player.preload();
                 
-                    npc = new NPC(game);
-                    npc.preload();
+                    //npc = new NPC(game);
+                    //npc.preload();
                 
                     enemy = new Enemy(game);
                     enemy.preload();
@@ -22,7 +22,7 @@ window.onload = function() {
                     level.create();
                 
                     player.create();    
-                    npc.create();               
+                    //npc.create();               
                     enemy.create();
                 
                     hud.create();
@@ -33,17 +33,15 @@ window.onload = function() {
             }
             
             function update () {                        
-                game.physics.collide(player.sprite, npc.sprite, player.touchNPC(npc));    
-                game.physics.collide(player.sprite, enemy.sprite, player.touchEnemy(enemy));   
-                game.physics.collide(npc.sprite, enemy.sprite, enemy.touchNPC(npc));  
+
+                
+                player.update(enemy);
+                enemy.update(player);
+                
+                game.physics.collide(player.sprite, enemy.sprite);   
                 
                 game.physics.collide(player.sprite, level.layer);  
-                game.physics.collide(npc.sprite, level.layer);
                 game.physics.collide(enemy.sprite, level.layer);
-                                     
-                player.update(npc, enemy);
-                npc.update();
-                enemy.update(player, npc);
             }
     
         };

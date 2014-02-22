@@ -16,8 +16,13 @@ Level.prototype = {
 
         this.map = this.game.add.tilemap('demolevel');
         this.map.addTilesetImage('leveltiles2', 'leveltiles');
-        this.map.setCollisionByExclusion([0]);
-
+        this.map.setCollision([20], true, 'Terrain');
+        //this.map.setCollisionByExclusion([10]);
+               
+        this.layer2 = this.map.createLayer('Ground');
+        this.layer2.fixedToCamera = true;
+        this.layer2.resizeWorld();
+        
         this.layer = this.map.createLayer('Terrain');
         this.layer.fixedToCamera = true;
         this.layer.resizeWorld();
@@ -25,3 +30,4 @@ Level.prototype = {
     },
     update: function () {}
 };
+

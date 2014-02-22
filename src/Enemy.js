@@ -2,6 +2,8 @@ Enemy = function (game) {
 
     this.game = game;
     this.sprite = null;
+    this.directionToFollow = 0;
+    this.stepsLeft = 0;
 };
 
 Enemy.prototype = {
@@ -16,27 +18,51 @@ Enemy.prototype = {
 
         this.sprite.animations.add('left', [0, 1, 2, 3], 10, true);
         this.sprite.animations.add('right', [5, 6, 7, 8], 10, true);
+        this.sprite.animations.add('spin', [2, 3, 4, 5, 6], 10, true);
     },
-    update: function (player, npc) {
-        this.sprite.body.velocity.setTo(0, 0);
-    
+    update: function (target) {
+        this.sprite.body.velocity.setTo(0, 0);    
         
-        this.nearTarget(player);
-        this.nearTarget(npc);
-    },
-    nearTarget: function(target){
         var xDistance = this.sprite.x - target.sprite.x;
         var yDistance = this.sprite.y - target.sprite.y;
         
-        if (Math.abs(xDistance) + Math.abs(yDistance) < 128)
+        if (Math.abs(xDistance) + Math.abs(yDistance) < 200)
         {
-            this.game.physics.moveToObject(this.sprite, target.sprite, 150);
+            this.game.physics.moveToObject(this.sprite, target.sprite, 75);
         }
-    },
-    touchNPC: function(npc) {
-         this.sprite.body.velocity.setTo(0, 0);
-         npc.sprite.body.velocity.setTo(0, 0);
-        
-         npc.sprite.kill();
-    }
+        else
+        {
+
+            if (this.stepsLeft == 0)
+            {
+               this.directionToFollow = this.game.rnd.integerInRange(0, 6);
+
+                this.stepsLeft = 30;
+            }
+
+            switch(this.directionToFollow)
+            {
+                case 1:
+                    this.sprite.body.velocity.x = -75;
+                    this.sprite.animations.play('left');
+                    break;
+                case 2:
+                    this.sprite.body.velocity.x = 75;
+                    this.sprite.animations.play('right');
+                break;
+                case 3:
+                    this.sprite.body.velocity.y = -75;
+                    this.sprite.animations.play('left');
+                break;
+                case 4:
+                    this.sprite.body.velocity.y = 75;
+                    this.sprite.animations.play('right');
+                break;
+                case 5: 
+                    this.sprite.animations.play('spin');
+                    break;
+            }            
+
+            this.stepsLeft--;        
+    }}
 };
