@@ -20,7 +20,7 @@ Player.prototype = {
         
         this.cursors = this.game.input.keyboard.createCursorKeys();
     },
-    update: function (npc) {
+    update: function (npc, enemy) {
         this.sprite.body.velocity.setTo(0, 0);
 
         if (this.cursors.left.isDown) {
@@ -38,23 +38,27 @@ Player.prototype = {
             this.sprite.animations.play('right');
         }
         
-        this.nearNPC(npc);
+        this.nearEnemy(enemy);
         
     },
     touchNPC: function(npc) {
          this.sprite.body.velocity.setTo(0, 0);
          npc.sprite.body.velocity.setTo(0, 0);
     },
-    nearNPC: function(npc) {
-        var xDistance = this.sprite.x - npc.sprite.x;
-        var yDistance = this.sprite.y - npc.sprite.y;
+    nearEnemy: function(enemy) {
+        var xDistance = this.sprite.x - enemy.sprite.x;
+        var yDistance = this.sprite.y - enemy.sprite.y;
         
         if (Math.abs(xDistance) + Math.abs(yDistance) < 64)
         {
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
             {
-                npc.sprite.kill();
+                enemy.sprite.kill();
             }
         }
-    }
+    },
+    touchEnemy: function(enemy) {
+         this.sprite.body.velocity.setTo(0, 0);
+         enemy.sprite.body.velocity.setTo(0, 0);
+    },
 };

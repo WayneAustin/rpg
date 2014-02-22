@@ -9,7 +9,7 @@ NPC.prototype = {
         this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     },
     create: function () {
-        this.sprite = this.game.add.sprite(200, 200, 'dude');
+        this.sprite = this.game.add.sprite(500, 540, 'dude');
 
         this.sprite.body.immovable = true;
         this.sprite.body.collideWorldBounds = true;
@@ -19,7 +19,5 @@ NPC.prototype = {
     },
     update: function () {
         this.sprite.body.velocity.setTo(0, 0);
-   },
-    speak:function(){
-    }
+   }
 };
