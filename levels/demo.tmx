@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="50" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="leveltiles" tilewidth="16" tileheight="16">
+  <image source="../assets/leveltiles.png" width="256" height="128"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztlsEOwzAIQ7f//+mdJk1Tt0LA2CRY4tQ0sXlp0sdjNOLo+ad+jdtd1p5UrWkthAeGKjOvrov0xdh/K16Q/hQ4eHxUiuGH0XtFD2wpZT6Vg+oeVPJSIfXzIMNLF3as+3lVK14UfFvVncWpPBQUYdFFXVi8VcWDlbsjD8/YyL3f8WxenbeCfQYPpe8ke75qLt55FTigvCjysI7fSVEOTB6Za63ecxW+FO4PtCK5UD1QYnHlB6VoLjUeKA0PPoNffioVOauQZzaTxZUXhu7WZvOoFJvFndA9+pyvw96MzJkxb8W3cbUWS1X3Y+Z8KCmcEch9jGKys7Jyov4Zs/2pK9IvK4Osfq6+1+n7ivZO6V9R2ZNVEc+qeXfkcZchKyfiXFPj4fHgvQOyciLWqrjHVoTIkJkzez3kvvHksI77914mD2texJrVPDzzIvdWVtZTeHTJ2cGjN4NljFIW5l5B8PjOdPdcJQObQRUPZe/svnvzsb2geLA971zDQKs8Yns9oTxiez2hpvdTU1NTU1M96gXieQg9
+  </data>
+ </layer>
+</map>

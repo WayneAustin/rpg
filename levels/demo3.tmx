@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="256" height="48" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="platformertiles" tilewidth="16" tileheight="16">
+  <image source="../assets/platformertiles.png" width="253" height="608"/>
+ </tileset>
+ <layer name="Background" width="256" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt0DdOBFEUBMD59w+wMTbCmwi/EOGNQMIbwQngBnQAR5j9Gk0F1XpBB09dmqYpAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEDnfSa+Sv0/gOH7TvyU+n8AQJeMJEZjLMZjIiZL+z2gvqnEdMzEbMzFfGm/BwzfQmIxlmI5VmI11mI9NmKztN+rvQP00VZiO3ZiN/ZiPw5iEIdxVNrv1d4B+ug4cRKncRbncRGXcRXXcVPa79XeAfroPvEQj/EUz/ESr/EW7/FR2u/9/3P3d9+WOnsAAAAAQNf9Akh9sr4=
+  </data>
+ </layer>
+ <layer name="Foreground" width="256" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt2b1OAlEUhdGJGEAIkkBAINKp/LSC8Bo0vv+jsAs62xnmGtZKvuZUJzc51a0qAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4D94Sp30nHqpn17SII3Saxq3th3QtEmapsut31vvad3iXgAAAAAAcE/d6u9f2bDAub87qN8szdNbWqRlWhU43zf1APDAPtJn+kqbtE27AufuH+r3nQ7pmH7SKZ0LnLt/qN8Vj+8W9Q==
+  </data>
+ </layer>
+</map>

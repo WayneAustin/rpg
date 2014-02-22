@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="24" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="leveltiles2" tilewidth="32" tileheight="32">
+  <image source="../assets/leveltiles2.png" width="320" height="320"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="50" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztl1EOgCAMQ4H7H9r4YQJkXVAoUkKTfSm4B6zDEI7YSlkoKoFQ0p1vNEJRq3O0nhMljhgwjwpHnp9SDVv5r7jOnjwGJY5cOzD0qK4hVo+c0Xtrrxu9t2heJguDA9Uvy1MZHJ4PMfflEdszZvnSLt53OMrxf8vyFMv7rWcjvMLrNehfsCUP5C8t7yMWb52sO289bkR8ndPiYH/z7dlg59LLcQFtBwGD
+  </data>
+ </layer>
+</map>
