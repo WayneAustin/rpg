@@ -9,8 +9,8 @@ window.onload = function() {
                     player = new Player(game);
                     player.preload();
                 
-                    //npc = new NPC(game);
-                    //npc.preload();
+                    npc = new NPC(game);
+                    npc.preload();
                 
                     hud = new HUD(game);    
             }
@@ -20,20 +20,22 @@ window.onload = function() {
                 
                     player.create();
     
-                    //npc.create();
+                    npc.create();
                 
                     hud.create();
                 
                     game.camera.follow(player.sprite, Phaser.FOLLOW_TOPDOWN);
-                
-                    game.physics.gravity.x = 0;
-                    game.physics.gravity.y = 0;
+
+                    game.physics.gravity.setTo(0, 0);
             }
             
             function update () {                        
-                game.physics.collide(player.sprite, level.layer);     
-                
-                player.update();
+                game.physics.collide(player.sprite, npc.sprite, player.touchNPC(npc));    
+                game.physics.collide(player.sprite, level.layer);  
+                game.physics.collide(npc.sprite, level.layer);
+                                     
+                player.update(npc);
+                npc.update();
             }
     
         };
