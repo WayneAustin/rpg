@@ -3,43 +3,55 @@ window.onload = function () {
     var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', {
         preload: preload,
         create: create,
-        update: update
+        update: update,
+        render: render
     });
 
+    var npcs;
+    var player;
+    var level;
+
     function preload() {
-        level = new Level(game);
-        level.preload();
+        this.game.load.tilemap('demolevel', '/levels/demo2.json', null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.image('leveltiles', '/assets/leveltiles2.png', 32, 32);
 
-        player = new Player(game);
-        player.preload();
-
-        npcs = new NPCs(game);
-        npcs.preload();
+        this.game.load.atlasXML('knight', 'assets/player/knight.png', 'assets/player/knight.xml');
+        this.game.load.atlasXML('rapscallion', 'assets/player/rapscallion.png', 'assets/player/rapscallion.xml');
     }
 
     function create() {
-        level.create();
+        level = new Level(game);
 
-        player.create();
+        player = new Player(game);
 
-        npcs.create();
+        npcs = [];
+
+        for (var index = 0; index < 10; index++) {
+            npcs.push(new NPC(game, player));
+        }
 
         game.camera.follow(player.sprite, Phaser.FOLLOW_TOPDOWN);
 
         game.physics.gravity.setTo(0, 0);
-        game.physics.bounce.setTo(0,0);
     }
 
     function update() {
 
-        player.update(npcs);
-        npcs.update(player);
-
-        game.physics.collide(player.sprite, npcs.npcs, this.collide, null, this);
-        game.physics.collide(npcs.npcs, npcs.npcs, this.collide, null, this);
+        for (var index = 0; index < npcs.length; index++) {
+            if (npcs[index].sprite.alive) {
+                game.physics.collide(player.sprite, npcs[index].sprite);
+                game.physics.collide(npcs[index].sprite, level.layer, this.collide, null, this);
+                npcs[index].update();
+            }
+        }
 
         game.physics.collide(player.sprite, level.layer, this.collide, null, this);
-        game.physics.collide(npcs.npcs, level.layer, this.collide, null, this);
+
+        player.update();
+    }
+
+    function render() {
+
     }
 
 };
