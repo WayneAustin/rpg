@@ -10,6 +10,7 @@ window.onload = function () {
     var npcs;
     var player;
     var level;
+    var valueBar;
 
     function preload() {
         this.game.load.tilemap('demolevel', '/levels/demo2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -26,8 +27,8 @@ window.onload = function () {
 
         npcs = [];
 
-        for (var index = 0; index < 10; index++) {
-            npcs.push(new NPC(game, player));
+        for (var index = 0; index < 6; index++) {
+            npcs.push(new NPC(game, player, index));
         }
 
         game.camera.follow(player.sprite, Phaser.FOLLOW_TOPDOWN);
@@ -39,19 +40,32 @@ window.onload = function () {
 
         for (var index = 0; index < npcs.length; index++) {
             if (npcs[index].sprite.alive) {
-                game.physics.collide(player.sprite, npcs[index].sprite);
-                game.physics.collide(npcs[index].sprite, level.layer, this.collide, null, this);
+                game.physics.collide(player.sprite, npcs[index].sprite, playerTouchNPC, null, this);
+                game.physics.collide(npcs[index].sprite, level.layer);
+
                 npcs[index].update();
             }
         }
 
-        game.physics.collide(player.sprite, level.layer, this.collide, null, this);
+        game.physics.collide(player.sprite, level.layer);
 
         player.update();
     }
 
-    function render() {
 
+    function render() {
+        for (var index = 0; index < npcs.length; index++) {
+            if (npcs[index].sprite.alive) {
+                npcs[index].render();
+            }
+        }
+
+        player.render();
+    }
+
+    function playerTouchNPC(playerSprite, npcSprite) {
+        if (player.attacking)
+            npcs[npcSprite.name].damage();
     }
 
 };

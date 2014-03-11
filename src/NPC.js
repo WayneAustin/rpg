@@ -1,17 +1,25 @@
-NPC = function (game, player) {
+NPC = function (game, player, index) {
 
     this.game = game;
     this.player = player;
     this.sprite = null;
+
     this.stepsLeft = 0;
     this.directionToFollow = 0;
+    this.health = this.game.rnd.integerInRange(50, 100);
+    this.speed = this.game.rnd.integerInRange(30, 100);
 
     var xPosition = this.game.rnd.integerInRange(0, 800);
     var yPosition = this.game.rnd.integerInRange(0, 600);
 
     this.sprite = this.game.add.sprite(xPosition, yPosition, 'knight');
+    this.sprite.name = index.toString();
 
     this.sprite.anchor.setTo(0.5, 0.5);
+
+    var scale = this.game.rnd.realInRange(0.8, 1.5);
+
+    this.sprite.scale.setTo(scale, scale);
 
     this.sprite.body.immovable = true;
     this.sprite.body.collideWorldBounds = true;
@@ -20,6 +28,8 @@ NPC = function (game, player) {
     this.sprite.animations.add('down', Phaser.Animation.generateFrameNames('Down', 1, 9, '', 2), 30, true);
     this.sprite.animations.add('left', Phaser.Animation.generateFrameNames('Left', 1, 9, '', 2), 30, true);
     this.sprite.animations.add('right', Phaser.Animation.generateFrameNames('Right', 1, 9, '', 2), 30, true);
+
+    this.healthbar = new ValueBar(game, this, 0x000000, 50, this.health, 1);
 };
 
 NPC.prototype.update = function () {
@@ -29,7 +39,7 @@ NPC.prototype.update = function () {
     var yDistance = this.sprite.y - this.player.sprite.y;
 
     if (Math.abs(xDistance) + Math.abs(yDistance) < 200) {
-        this.game.physics.moveToObject(this.sprite, this.player.sprite, 90);
+        this.game.physics.moveToObject(this.sprite, this.player.sprite, this.speed);
     } else {
 
         if (this.stepsLeft == 0) {
@@ -40,16 +50,16 @@ NPC.prototype.update = function () {
 
         switch (this.directionToFollow) {
         case 1:
-            this.sprite.body.velocity.x = -75;
+            this.sprite.body.velocity.x = -this.speed;
             break;
         case 2:
-            this.sprite.body.velocity.x = 75;
+            this.sprite.body.velocity.x = this.speed;
             break;
         case 3:
-            this.sprite.body.velocity.y = -75;
+            this.sprite.body.velocity.y = -this.speed;
             break;
         case 4:
-            this.sprite.body.velocity.y = 75;
+            this.sprite.body.velocity.y = this.speed;
             break;
         }
 
@@ -66,4 +76,24 @@ NPC.prototype.update = function () {
     } else if (this.sprite.body.facing == Phaser.DOWN) {
         this.sprite.animations.play('down');
     }
+
+    this.healthbar.update(this.health);
+};
+
+NPC.prototype.render = function () {
+    this.healthbar.render();
+};
+
+NPC.prototype.damage = function () {
+
+    this.health -= this.game.rnd.integerInRange(0, 10);
+
+    if (this.health <= 0) {
+        this.health = 0;
+        this.sprite.kill();
+
+        return true;
+    }
+
+    return false;
 };

@@ -4,6 +4,8 @@ Player = function (game) {
     this.sprite = null;
     this.cursors = null;
 
+    this.health = 100;
+
     this.sprite = this.game.add.sprite(100, 60, 'rapscallion');
 
     this.sprite.body.immovable = true;
@@ -20,13 +22,17 @@ Player = function (game) {
     this.sprite.animations.add('attackright', Phaser.Animation.generateFrameNames('AttackRight', 1, 6, '', 2), 15, true);
     this.sprite.animations.add('die', Phaser.Animation.generateFrameNames('Die', 1, 6, '', 2), 15, true);
 
+    this.healthbar = new ValueBar(game, this, 0xFF3300, 50, this.health, 1);
+
+    this.attacking = false;
+
     this.cursors = this.game.input.keyboard.createCursorKeys();
 };
 
 Player.prototype.update = function () {
     this.sprite.body.velocity.setTo(0, 0);
 
-    var attacking = false;
+    this.attacking = false;
 
     if (this.cursors.left.isDown) {
         this.sprite.body.velocity.x = -150;
@@ -36,17 +42,48 @@ Player.prototype.update = function () {
         this.sprite.body.velocity.y = -150;
     } else if (this.cursors.down.isDown) {
         this.sprite.body.velocity.y = 150;
+    } else if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        this.attacking = true;
     } else {
         this.sprite.animations.stop();
     }
 
-    if (this.sprite.body.facing == Phaser.LEFT) {
-        this.sprite.animations.play('left');
-    } else if (this.sprite.body.facing == Phaser.RIGHT) {
-        this.sprite.animations.play('right');
-    } else if (this.sprite.body.facing == Phaser.UP) {
-        this.sprite.animations.play('up');
-    } else if (this.sprite.body.facing == Phaser.DOWN) {
-        this.sprite.animations.play('down');
+    if (this.attacking) {
+        if (this.sprite.body.facing == Phaser.LEFT) {
+            this.sprite.animations.play('attackleft');
+        } else if (this.sprite.body.facing == Phaser.RIGHT) {
+            this.sprite.animations.play('attackright');
+        } else if (this.sprite.body.facing == Phaser.UP) {
+            this.sprite.animations.play('attackup');
+        } else if (this.sprite.body.facing == Phaser.DOWN) {
+            this.sprite.animations.play('attackdown');
+        }
+    } else {
+        if (this.sprite.body.facing == Phaser.LEFT) {
+            this.sprite.animations.play('left');
+        } else if (this.sprite.body.facing == Phaser.RIGHT) {
+            this.sprite.animations.play('right');
+        } else if (this.sprite.body.facing == Phaser.UP) {
+            this.sprite.animations.play('up');
+        } else if (this.sprite.body.facing == Phaser.DOWN) {
+            this.sprite.animations.play('down');
+        }
     }
+
+    this.healthbar.update(this.health);
+};
+
+Player.prototype.render = function () {
+    this.healthbar.render();
+};
+
+Player.prototype.damage = function () {
+    this.health--;
+    if (this.health <= 0) {
+        this.sprite.kill();
+
+        return true;
+    }
+
+    return false;
 };
