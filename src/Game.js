@@ -1,6 +1,6 @@
 window.onload = function () {
 
-    var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', {
+    var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game', {
         preload: preload,
         create: create,
         update: update,
@@ -10,7 +10,7 @@ window.onload = function () {
     var npcs;
     var player;
     var level;
-    var valueBar;
+    var hud;
 
     function preload() {
         this.game.load.tilemap('demolevel', '/levels/demo2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -30,6 +30,8 @@ window.onload = function () {
         for (var index = 0; index < 6; index++) {
             npcs.push(new NPC(game, player, index));
         }
+        
+        hud = new HUD(game, player);
 
         game.camera.follow(player.sprite, Phaser.FOLLOW_TOPDOWN);
 
@@ -50,6 +52,8 @@ window.onload = function () {
         game.physics.collide(player.sprite, level.layer);
 
         player.update();
+        
+        hud.update();
     }
 
 

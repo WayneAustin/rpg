@@ -10,7 +10,8 @@ Player = function (game) {
 
     this.sprite.body.immovable = true;
     this.sprite.body.collideWorldBounds = true;
-    this.sprite.anchor.setTo(0.5, 0.5);
+    this.sprite.body.allowGravity = false;
+    this.sprite.anchor.setTo(0.5, 0.5); 
 
     this.sprite.animations.add('up', Phaser.Animation.generateFrameNames('Up', 1, 9, '', 2), 30, true);
     this.sprite.animations.add('down', Phaser.Animation.generateFrameNames('Down', 1, 9, '', 2), 30, true);

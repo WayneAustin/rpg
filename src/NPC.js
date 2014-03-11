@@ -15,14 +15,14 @@ NPC = function (game, player, index) {
     this.sprite = this.game.add.sprite(xPosition, yPosition, 'knight');
     this.sprite.name = index.toString();
 
-    this.sprite.anchor.setTo(0.5, 0.5);
-
     var scale = this.game.rnd.realInRange(0.8, 1.5);
 
     this.sprite.scale.setTo(scale, scale);
 
     this.sprite.body.immovable = true;
     this.sprite.body.collideWorldBounds = true;
+    this.sprite.body.allowGravity = false;
+    this.sprite.anchor.setTo(0.5, 0.5);
 
     this.sprite.animations.add('up', Phaser.Animation.generateFrameNames('Up', 1, 9, '', 2), 30, true);
     this.sprite.animations.add('down', Phaser.Animation.generateFrameNames('Down', 1, 9, '', 2), 30, true);
