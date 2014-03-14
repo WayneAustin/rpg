@@ -30,7 +30,7 @@ window.onload = function () {
         for (var index = 0; index < 6; index++) {
             npcs.push(new NPC(game, player, index));
         }
-        
+
         hud = new HUD(game, player);
 
         game.camera.follow(player.sprite, Phaser.FOLLOW_TOPDOWN);
@@ -52,7 +52,7 @@ window.onload = function () {
         game.physics.collide(player.sprite, level.layer);
 
         player.update();
-        
+
         hud.update();
     }
 
@@ -65,11 +65,16 @@ window.onload = function () {
         }
 
         player.render();
+
     }
 
     function playerTouchNPC(playerSprite, npcSprite) {
-        if (player.attacking)
+        if (player.attacking && spriteFacing(playerSprite))
             npcs[npcSprite.name].damage();
+    }
+
+    function spriteFacing(sprite) {
+        return (sprite.body.touching.down && sprite.body.facing == Phaser.DOWN || sprite.body.touching.up && sprite.body.facing == Phaser.UP || sprite.body.touching.left && sprite.body.facing == Phaser.LEFT || sprite.body.touching.right && sprite.body.facing == Phaser.RIGHT)
     }
 
 };

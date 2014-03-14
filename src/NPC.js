@@ -9,6 +9,10 @@ NPC = function (game, player, index) {
     this.health = this.game.rnd.integerInRange(50, 100);
     this.speed = this.game.rnd.integerInRange(30, 100);
 
+    this.angle = 0;
+
+    this.stunned = false;
+
     var xPosition = this.game.rnd.integerInRange(0, 800);
     var yPosition = this.game.rnd.integerInRange(0, 600);
 
@@ -33,49 +37,57 @@ NPC = function (game, player, index) {
 };
 
 NPC.prototype.update = function () {
-    this.sprite.body.velocity.setTo(0, 0);
 
-    var xDistance = this.sprite.x - this.player.sprite.x;
-    var yDistance = this.sprite.y - this.player.sprite.y;
+    if (!this.stunned) {
+        this.sprite.body.velocity.setTo(0, 0);
 
-    if (Math.abs(xDistance) + Math.abs(yDistance) < 200) {
-        this.game.physics.moveToObject(this.sprite, this.player.sprite, this.speed);
-    } else {
+        var xDistance = this.sprite.x - this.player.sprite.x;
+        var yDistance = this.sprite.y - this.player.sprite.y;
 
-        if (this.stepsLeft == 0) {
-            this.directionToFollow = this.game.rnd.integerInRange(0, 5);
+        if (Math.abs(xDistance) + Math.abs(yDistance) < 200) {
+            this.game.physics.moveToObject(this.sprite, this.player.sprite, this.speed);
+        } else {
 
-            this.stepsLeft = 60;
+            if (this.stepsLeft == 0) {
+                this.directionToFollow = this.game.rnd.integerInRange(0, 5);
+
+                this.stepsLeft = 60;
+            }
+
+            switch (this.directionToFollow) {
+            case 1:
+                this.sprite.body.velocity.x = -this.speed;
+                break;
+            case 2:
+                this.sprite.body.velocity.x = this.speed;
+                break;
+            case 3:
+                this.sprite.body.velocity.y = -this.speed;
+                break;
+            case 4:
+                this.sprite.body.velocity.y = this.speed;
+                break;
+            }
+
+
+            this.stepsLeft--;
         }
 
-        switch (this.directionToFollow) {
-        case 1:
-            this.sprite.body.velocity.x = -this.speed;
-            break;
-        case 2:
-            this.sprite.body.velocity.x = this.speed;
-            break;
-        case 3:
-            this.sprite.body.velocity.y = -this.speed;
-            break;
-        case 4:
-            this.sprite.body.velocity.y = this.speed;
-            break;
+        if (this.sprite.body.facing == Phaser.LEFT) {
+            this.angle = 180;
+            this.sprite.animations.play('left');
+        } else if (this.sprite.body.facing == Phaser.RIGHT) {
+            this.angle = 0;
+            this.sprite.animations.play('right');
+        } else if (this.sprite.body.facing == Phaser.UP) {
+            this.angle = 270;
+            this.sprite.animations.play('up');
+        } else if (this.sprite.body.facing == Phaser.DOWN) {
+            this.angle = 90;
+            this.sprite.animations.play('down');
         }
-
-
-        this.stepsLeft--;
     }
 
-    if (this.sprite.body.facing == Phaser.LEFT) {
-        this.sprite.animations.play('left');
-    } else if (this.sprite.body.facing == Phaser.RIGHT) {
-        this.sprite.animations.play('right');
-    } else if (this.sprite.body.facing == Phaser.UP) {
-        this.sprite.animations.play('up');
-    } else if (this.sprite.body.facing == Phaser.DOWN) {
-        this.sprite.animations.play('down');
-    }
 
     this.healthbar.update(this.health);
 };
@@ -88,6 +100,10 @@ NPC.prototype.damage = function () {
 
     this.health -= this.game.rnd.integerInRange(0, 10);
 
+    this.stunned = true;
+
+    this.game.physics.velocityFromAngle(this.player.angle, 200, this.sprite.body.velocity);
+
     if (this.health <= 0) {
         this.health = 0;
         this.sprite.kill();
@@ -95,5 +111,13 @@ NPC.prototype.damage = function () {
         return true;
     }
 
+    this.game.time.events.add(Phaser.Timer.SECOND * 0.3, this.recover, this);
+
     return false;
+};
+
+NPC.prototype.recover = function () {
+    this.stunned = false;
+    this.sprite.body.velocity.setTo(0, 0);
+    this.stepsLeft = 0;
 };

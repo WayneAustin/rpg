@@ -11,7 +11,9 @@ Player = function (game) {
     this.sprite.body.immovable = true;
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.allowGravity = false;
-    this.sprite.anchor.setTo(0.5, 0.5); 
+    this.sprite.anchor.setTo(0.5, 0.5);
+
+    this.angle = 0;
 
     this.sprite.animations.add('up', Phaser.Animation.generateFrameNames('Up', 1, 9, '', 2), 30, true);
     this.sprite.animations.add('down', Phaser.Animation.generateFrameNames('Down', 1, 9, '', 2), 30, true);
@@ -51,22 +53,30 @@ Player.prototype.update = function () {
 
     if (this.attacking) {
         if (this.sprite.body.facing == Phaser.LEFT) {
+            this.angle = 180;
             this.sprite.animations.play('attackleft');
         } else if (this.sprite.body.facing == Phaser.RIGHT) {
+            this.angle = 0;
             this.sprite.animations.play('attackright');
         } else if (this.sprite.body.facing == Phaser.UP) {
+            this.angle = 270;
             this.sprite.animations.play('attackup');
         } else if (this.sprite.body.facing == Phaser.DOWN) {
+            this.angle = 90;
             this.sprite.animations.play('attackdown');
         }
     } else {
         if (this.sprite.body.facing == Phaser.LEFT) {
+            this.angle = 180;
             this.sprite.animations.play('left');
         } else if (this.sprite.body.facing == Phaser.RIGHT) {
+            this.angle = 0;
             this.sprite.animations.play('right');
         } else if (this.sprite.body.facing == Phaser.UP) {
+            this.angle = 270;
             this.sprite.animations.play('up');
         } else if (this.sprite.body.facing == Phaser.DOWN) {
+            this.angle = 90;
             this.sprite.animations.play('down');
         }
     }
